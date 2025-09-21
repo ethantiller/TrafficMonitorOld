@@ -1,12 +1,18 @@
 from google import genai
 import time
 import json
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+GenAI_API_KEY = os.getenv("GENAI_API_KEY")
 
 MAX_REQUESTS_PER_MINUTE = 15
 usage_counter = 0
 start_time = time.time()
 
-client = genai.Client(api_key="AIzaSyA3w6Jrd8oUbjw4Srin5T8nywjfIsKqKTA")
+client = genai.Client(api_key=GenAI_API_KEY)
 
 def chatBotResponse(prompt):
     global usage_counter, start_time
@@ -41,14 +47,14 @@ def chatBotResponse(prompt):
 # Don't need this in production, the prompt will come from the web request
 def main():
     print("Welcome to the OpenAI Chatbot! Type 'exit' to end the conversation.")
-    
+
     while True:
         user_input = input("You: ")
-        
+
         if user_input.lower() == 'exit':
             print("Chatbot: Goodbye!")
             break
-        
+
         response = chatBotResponse(user_input)
         print(f"Chatbot: {response}")
         print("Welcome to the OpenAI Chatbot! Type 'exit' to end the conversation.")
